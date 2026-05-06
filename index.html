@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Student portfolio — Junior Frontend Developer focused on responsive interfaces, readable code, and accessibility basics."
+  />
+  <title>Portfolio · Junior Frontend Developer</title>
+  <!--
+    GitHub Pages: push this file as index.html in the repo root (or /docs).
+    Replace placeholders marked PERSONALIZE in comments below.
+  -->
+  <style>
+    /* ========== CSS variables (easy theme tweaks) ========== */
+    :root {
+      --bg: #f6f7fb;
+      --bg-elevated: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+      --shadow-sm: 0 8px 24px rgba(15, 23, 42, 0.06);
+      --accent: #4f46e5;
+      --accent-2: #7c3aed;
+      --accent-soft: rgba(79, 70, 229, 0.12);
+      --accent-soft-2: rgba(124, 58, 237, 0.12);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --max: 1120px;
+      --header-h: 72px;
+      --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+        "Apple Color Emoji", "Segoe UI Emoji";
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    /* Respect users who prefer less motion */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Skip link: keyboard accessibility */
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 12px;
+      padding: 10px 14px;
+      background: var(--text);
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      z-index: 1000;
+      font-weight: 600;
+    }
+
+    .skip-link:focus {
+      left: 12px;
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+    }
+
+    /* Soft gradient “mesh” background */
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(124, 58, 237, 0.18), transparent 55%),
+        radial-gradient(900px 520px at 85% 20%, rgba(79, 70, 229, 0.16), transparent 52%),
+        radial-gradient(700px 420px at 55% 85%, rgba(56, 189, 248, 0.12), transparent 55%),
+        linear-gradient(180deg, var(--bg), #ffffff);
+    }
+
+    /* ========== Layout utilities ========== */
+    .container {
+      width: min(var(--max), calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    section {
+      scroll-margin-top: calc(var(--header-h) + 16px);
+      padding: 72px 0;
+    }
+
+    section:nth-of-type(even) {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(246, 247, 251, 0.35));
+      border-block: 1px solid var(--border);
+    }
+
+    .section-head {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 28px;
+      max-width: 720px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 26px;
+      height: 2px;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 4vw, 3.15rem);
+      margin: 0;
+    }
+
+    h2 {
+      font-size: clamp(1.55rem, 2.6vw, 2.05rem);
+      margin: 0;
+    }
+
+    h3 {
+      font-size: 1.08rem;
+      margin: 0 0 8px;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+
+    .lead {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    /* ========== Header / nav ========== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: var(--header-h);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(12px);
+      /* Creates a predictable stacking context for the mobile dropdown panel */
+      isolation: isolate;
+    }
+
+    .header-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      font-weight: 650;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    /* Desktop navigation */
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 0.95rem;
+      padding: 10px 10px;
+      border-radius: 10px;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(15, 23, 42, 0.04);
+    }
+
+    .nav-links a:focus-visible {
+      outline: 3px solid rgba(79, 70, 229, 0.35);
+      outline-offset: 2px;
+    }
+
+    /* Mobile menu button */
+    .menu-toggle {
+      display: none;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .menu-toggle:focus-visible {
+      outline: 3px solid rgba(79, 70, 229, 0.35);
+      outline-offset: 2px;
+    }
+
+    /* Mobile panel */
+    @media (max-width: 860px) {
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav {
+        position: absolute;
+        inset: calc(var(--header-h) + 0px) 0 auto 0;
+        padding: 14px 20px 18px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(12px);
+        transform-origin: top;
+        transform: scaleY(0.92);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 160ms ease, transform 160ms ease;
+      }
+
+      .nav[data-open="true"] {
+        opacity: 1;
+        transform: scaleY(1);
+        pointer-events: auto;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+      }
+
+      .nav-links a {
+        padding: 12px 12px;
+      }
+    }
+
+    /* ========== Buttons ========== */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-weight: 800;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid rgba(79, 70, 229, 0.35);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 14px 34px rgba(79, 70, 229, 0.28);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.03);
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.75);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(79, 70, 229, 0.35);
+    }
+
+    /* ========== Hero ========== */
+    .hero {
+      padding-top: 56px;
+      padding-bottom: 56px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: clamp(22px, 4vw, 44px);
+      align-items: center;
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hero-card {
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 6px);
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      min-height: 320px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative “product UI” preview built with CSS only */
+    .mock-ui {
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(79, 70, 229, 0.06), rgba(124, 58, 237, 0.05));
+      padding: 14px;
+      height: 100%;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .mock-top {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 99px;
+      background: rgba(15, 23, 42, 0.18);
+    }
+
+    .mock-bar {
+      height: 10px;
+      border-radius: 99px;
+      background: rgba(15, 23, 42, 0.08);
+      flex: 1;
+    }
+
+    .mock-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 12px;
+    }
+
+    .mock-panel {
+      border-radius: 14px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: rgba(255, 255, 255, 0.75);
+      min-height: 140px;
+      padding: 12px;
+    }
+
+    .mock-chip {
+      display: inline-flex;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 750;
+      color: rgba(79, 70, 229, 0.95);
+      background: rgba(79, 70, 229, 0.12);
+      border: 1px solid rgba(79, 70, 229, 0.18);
+    }
+
+    .hero-note {
+      margin-top: 14px;
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    /* ========== Cards / grids ========== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 980px) {
+      .card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow-sm);
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .card h3 {
+      font-size: 1.12rem;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      background: rgba(246, 247, 251, 0.85);
+      color: rgba(15, 23, 42, 0.78);
+      font-weight: 650;
+    }
+
+    /* ========== Skills ========== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 860px) {
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .skill-panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow-sm);
+      padding: 16px;
+    }
+
+    .skill-panel h3 {
+      margin-bottom: 10px;
+      font-size: 1.02rem;
+    }
+
+    /* ========== Timeline (AI workflow) ========== */
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow-sm);
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .step-num {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: rgba(79, 70, 229, 0.95);
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.18), rgba(124, 58, 237, 0.14));
+      border: 1px solid rgba(79, 70, 229, 0.22);
+    }
+
+    /* ========== Contact ========== */
+    .contact-panel {
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 6px);
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* ========== Footer ========== */
+    footer {
+      padding: 34px 0 44px;
+      border-top: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    .footer-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 18px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .fineprint {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      font-weight: 750;
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+      background: rgba(15, 23, 42, 0.04);
+    }
+
+    .footer-links a:focus-visible {
+      outline: 3px solid rgba(79, 70, 229, 0.35);
+      outline-offset: 2px;
+    }
+
+    /* Small helper: stack layout rhythm */
+    .stack-sm > * + * {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Decorative background layer (does not affect interaction) -->
+  <div class="page-bg" aria-hidden="true"></div>
+
+  <!-- Keyboard users can skip repetitive navigation -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ========== Header ========== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <!-- PERSONALIZE: replace name text -->
+      <a class="brand" href="#hero" aria-label="Back to top">
+        Jamie Lin <span>· Frontend</span>
+      </a>
+
+      <!-- Mobile nav toggle -->
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        Menu
+      </button>
+
+      <nav id="site-nav" class="nav" aria-label="Primary">
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#direction">Direction</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#ai">AI workflow</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ========== Main content ========== -->
+  <main id="main">
+    <!-- 1) Hero -->
+    <section id="hero" class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Portfolio · Junior Frontend Developer</div>
+          <!-- PERSONALIZE: heading -->
+          <h1 id="hero-title">Building responsive interfaces with clarity—from markup to layout.</h1>
+          <p class="lead">
+            I’m a student developer focused on <strong>clean UI</strong>, <strong>readable structure</strong>, and
+            <strong>accessibility basics</strong>. I like turning briefs and layouts into pages that feel intentional on
+            phones and desktops.
+          </p>
+
+          <div class="btn-row">
+            <a class="btn btn-primary" href="#projects">View projects</a>
+            <a class="btn btn-secondary" href="#contact">Contact me</a>
+          </div>
+
+          <p class="hero-note">
+            <strong>Tagline:</strong> Responsive interfaces · Readable code · Accessible foundations.
+          </p>
+          <p class="hero-note">
+            Built for instructors, internship recruiters, and collaborators reviewing how I think and ship UI.
+          </p>
+        </div>
+
+        <!-- Visual preview card (no external images) -->
+        <aside class="hero-card" aria-label="Decorative interface preview">
+          <div class="mock-ui">
+            <div class="mock-top" aria-hidden="true">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <div class="mock-bar"></div>
+            </div>
+            <div aria-hidden="true">
+              <span class="mock-chip">Semantic HTML</span>
+              <span class="mock-chip" style="margin-left: 8px">Responsive CSS</span>
+            </div>
+            <div class="mock-grid" aria-hidden="true">
+              <div class="mock-panel">
+                <div style="height: 10px; width: 62%; border-radius: 99px; background: rgba(15,23,42,0.12)"></div>
+                <div style="height: 10px; width: 42%; margin-top: 10px; border-radius: 99px; background: rgba(15,23,42,0.08)"></div>
+                <div style="margin-top: 14px; height: 54px; border-radius: 14px; border: 1px dashed rgba(79,70,229,0.25)"></div>
+              </div>
+              <div class="mock-panel">
+                <div style="height: 10px; width: 55%; border-radius: 99px; background: rgba(15,23,42,0.12)"></div>
+                <div style="margin-top: 12px; height: 12px; border-radius: 99px; background: rgba(124,58,237,0.18)"></div>
+                <div style="margin-top: 10px; height: 12px; border-radius: 99px; background: rgba(79,70,229,0.16)"></div>
+                <div style="margin-top: 10px; height: 12px; border-radius: 99px; background: rgba(56,189,248,0.16)"></div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 2) About -->
+    <section id="about" aria-labelledby="about-title">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">About</div>
+          <h2 id="about-title">About me</h2>
+          <p class="lead">
+            I’m developing practical skills in UI design, web prototyping, lightweight research, and digital product
+            thinking—while working toward a Junior Frontend Developer role.
+          </p>
+        </div>
+
+        <div class="card" style="max-width: 900px">
+          <p>
+            My workflow starts with structure: semantic HTML, a dependable layout system, and typography that scales.
+            Then I refine spacing, interaction details, and responsive behavior using DevTools and feedback from
+            instructors and peers.
+          </p>
+          <p>
+            I’m transparent about what I’m still learning—especially deeper JavaScript patterns and performance tuning—but
+            I stay consistent with fundamentals like meaningful headings, keyboard-friendly navigation, and contrast
+            checks.
+          </p>
+
+          <h3 style="margin-top: 14px">Strengths</h3>
+          <ul class="stack-sm" style="margin: 0; padding-left: 18px; color: var(--muted)">
+            <li><strong style="color: var(--text)">Structured execution:</strong> layouts become repeatable patterns before polishing visuals.</li>
+            <li><strong style="color: var(--text)">Collaborative mindset:</strong> I revise quickly when critique makes the UI clearer.</li>
+            <li><strong style="color: var(--text)">User-aware fundamentals:</strong> readable type, responsive behavior, and basic accessibility checks.</li>
+          </ul>
+
+          <p style="margin-top: 16px; margin-bottom: 0">
+            <strong style="color: var(--text)">AI in learning:</strong>
+            I use AI to clarify concepts and explore alternatives—then I rewrite explanations in my own words and validate
+            changes directly in the browser.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3) Professional direction -->
+    <section id="direction" aria-labelledby="direction-title">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">Focus</div>
+          <h2 id="direction-title">Professional direction</h2>
+          <p class="lead">
+            Junior Frontend Developer: implementation-first UI work that respects maintainability and accessibility—scoped
+            honestly for where I am today.
+          </p>
+        </div>
+
+        <div class="card-grid">
+          <article class="card">
+            <h3>Implement</h3>
+            <p>Translate layouts into semantic markup and CSS modules—navigation, cards, forms, and responsive grids.</p>
+          </article>
+          <article class="card">
+            <h3>Refine</h3>
+            <p>Tighten spacing systems, typography rhythm, states (hover/focus), and mobile breakpoints.</p>
+          </article>
+          <article class="card">
+            <h3>Collaborate</h3>
+            <p>Work from specs and feedback loops—document decisions simply so teammates can follow along.</p>
+          </article>
+        </div>
+
+        <div class="card" style="margin-top: 14px">
+          <h3>Problems I want to help solve</h3>
+          <ul style="margin: 0; padding-left: 18px; color: var(--muted)">
+            <li>Inconsistent UI rhythm → clearer spacing scales and reusable components</li>
+            <li>Layouts that break on phones → predictable grids and tested breakpoints</li>
+            <li>Friction for users → keyboard-friendly navigation and sensible focus styles</li>
+          </ul>
+          <p style="margin-bottom: 0; margin-top: 14px">
+            <strong style="color: var(--text)">Not my focus (yet):</strong> large-scale systems architecture—I'm prioritizing strong frontend fundamentals first.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4) Projects -->
+    <section id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">Work</div>
+          <h2 id="projects-title">Projects · realistic student scope</h2>
+          <p class="lead">
+            Three concepts aligned with coursework-style milestones—designed to show craft without sounding like a
+            launched company.
+          </p>
+        </div>
+
+        <div class="card-grid">
+          <article class="card">
+            <h3>CampusCraft Studio Site</h3>
+            <p>A responsive multi-page site for a fictional campus creative club—clear IA, repeated UI modules, accessible navigation.</p>
+            <div class="badges" aria-label="Technologies">
+              <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span><span class="tag">GitHub Pages</span>
+            </div>
+            <p style="margin: 0"><strong style="color: var(--text)">Demonstrates:</strong> semantic structure + responsive layout polish.</p>
+          </article>
+
+          <article class="card">
+            <h3>FlowLite Landing Page</h3>
+            <p>A single-page landing layout for a fictional productivity concept—conversion-focused sections with disciplined scope.</p>
+            <div class="badges" aria-label="Technologies">
+              <span class="tag">layout</span><span class="tag">components</span><span class="tag">a11y checks</span>
+            </div>
+            <p style="margin: 0"><strong style="color: var(--text)">Demonstrates:</strong> hierarchy, grids, and UI states.</p>
+          </article>
+
+          <article class="card">
+            <h3>StudyDeck Quick Recall</h3>
+            <p>A flashcard tool with local persistence—focused on DOM interaction, simple state, and defensive empty states.</p>
+            <div class="badges" aria-label="Technologies">
+              <span class="tag">localStorage</span><span class="tag">forms</span><span class="tag">JS modules intent</span>
+            </div>
+            <p style="margin: 0"><strong style="color: var(--text)">Demonstrates:</strong> readable JS organization for junior-level scope.</p>
+          </article>
+        </div>
+
+        <p class="fineprint" style="margin-top: 16px">
+          PERSONALIZE: Replace summaries with your real project links (GitHub + live demo) when ready.
+        </p>
+      </div>
+    </section>
+
+    <!-- 5) Skills -->
+    <section id="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">Toolkit</div>
+          <h2 id="skills-title">Skills &amp; tools</h2>
+          <p class="lead">
+            The habits I’m practicing while growing toward junior frontend work—fundamentals first, iteration always.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill-panel">
+            <h3>AI tools</h3>
+            <p style="margin-bottom: 10px">Course-approved assistants for brainstorming, explanations, and drafts—always verified manually.</p>
+            <div class="badges">
+              <span class="tag">prompt iteration</span><span class="tag">debug explanations</span><span class="tag">alt-text drafts</span>
+            </div>
+          </div>
+
+          <div class="skill-panel">
+            <h3>Design &amp; prototyping</h3>
+            <p style="margin-bottom: 10px">Simple frames and spacing/type scales before coding—so structure stays intentional.</p>
+            <div class="badges">
+              <span class="tag">Figma</span><span class="tag">wireframes</span><span class="tag">UI rhythm</span>
+            </div>
+          </div>
+
+          <div class="skill-panel">
+            <h3>Web development basics</h3>
+            <p style="margin-bottom: 10px">Semantic HTML, Flexbox/Grid, purposeful JS, Git commits, DevTools troubleshooting.</p>
+            <div class="badges">
+              <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Git/GitHub</span>
+            </div>
+          </div>
+
+          <div class="skill-panel">
+            <h3>Research &amp; planning</h3>
+            <p style="margin-bottom: 10px">Short briefs, realistic scope, lightweight accessibility checks during implementation.</p>
+            <div class="badges">
+              <span class="tag">briefs</span><span class="tag">references</span><span class="tag">manual testing</span>
+            </div>
+          </div>
+
+          <div class="skill-panel" style="grid-column: 1 / -1">
+            <h3>Communication</h3>
+            <p style="margin-bottom: 10px">README notes, iteration summaries after feedback, and clear questions when requirements are ambiguous.</p>
+            <div class="badges">
+              <span class="tag">documentation</span><span class="tag">revision notes</span><span class="tag">collaboration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6) AI workflow -->
+    <section id="ai" aria-labelledby="ai-title">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">Process</div>
+          <h2 id="ai-title">AI workflow · intentional collaboration</h2>
+          <p class="lead">
+            AI supported this portfolio where it accelerates thinking—but testing, editing, and ownership stayed mine.
+          </p>
+        </div>
+
+        <div class="timeline">
+          <article class="step">
+            <div class="step-num">1</div>
+            <div>
+              <h3>Career research</h3>
+              <p style="margin: 0">
+                Used AI to compare junior frontend expectations and decode jargon—then verified details against coursework,
+                MDN-style references, and postings I reviewed myself.
+              </p>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step-num">2</div>
+            <div>
+              <h3>Portfolio planning</h3>
+              <p style="margin: 0">
+                Asked for outline options (sections, accessibility reminders, realistic scopes). I chose what matched my
+                timeline and removed anything that overstated experience.
+              </p>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step-num">3</div>
+            <div>
+              <h3>Writing &amp; revision</h3>
+              <p style="margin: 0">
+                Draft support for clarity and tone—followed by manual edits so claims match what my repos can prove.
+              </p>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step-num">4</div>
+            <div>
+              <h3>Visual direction</h3>
+              <p style="margin: 0">
+                Explored style keywords and UI motifs as inspiration—final decisions followed implementation constraints and
+                contrast/accessibility checks.
+              </p>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step-num">5</div>
+            <div>
+              <h3>Coding support</h3>
+              <p style="margin: 0">
+                Used AI to compare approaches and explain errors—then validated layouts and interactions in the browser with
+                DevTools.
+              </p>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step-num">6</div>
+            <div>
+              <h3>Review discipline</h3>
+              <p style="margin: 0">
+                When suggestions looked fine visually but failed semantics, responsiveness, or keyboard UX—I rewrote them,
+                even if it took longer.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="card" style="margin-top: 14px">
+          <h3>Why AI didn’t replace my judgment</h3>
+          <p style="margin-bottom: 0">
+            Tools can suggest—but only I can take responsibility for scope honesty, originality, accessibility tradeoffs, and
+            shipped quality. That accountability is what makes a student portfolio credible.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7) Contact -->
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">Next step</div>
+          <h2 id="contact-title">Contact</h2>
+          <p class="lead">
+            If you’re reviewing coursework, hiring interns, or collaborating on UI implementation—reach out with links and
+            context.
+          </p>
+        </div>
+
+        <div class="contact-panel">
+          <p style="margin: 0">
+            Email works best for me. Please include what you’re building and what you need on the frontend—I'll respond as
+            soon as I can.
+          </p>
+
+          <div class="contact-actions">
+            <!-- PERSONALIZE: replace email -->
+            <a class="btn btn-primary" href="mailto:your.email@school.edu">Email me</a>
+            <!-- PERSONALIZE: replace href with real profile URLs -->
+            <a class="btn btn-secondary" href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a class="btn btn-secondary" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
+
+          <p class="fineprint" style="margin: 0">
+            Thanks for visiting—I'm excited to keep leveling up as a frontend developer.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 8) Footer -->
+  <footer>
+    <div class="container footer-row">
+      <p class="fineprint">© <span id="year"></span> Jamie Lin · Student portfolio</p>
+      <div class="footer-links" aria-label="Footer links">
+        <a href="#hero">Back to top</a>
+        <a href="#projects">Projects</a>
+        <a href="#ai">AI workflow</a>
+      </div>
+    </div>
+    <div class="container" style="margin-top: 12px">
+      <p class="fineprint" style="margin: 0">
+        Built as a single static HTML file for GitHub Pages—semantic sections, keyboard-friendly nav, and no external libraries.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    /*
+      ============================================================
+      Small JavaScript enhancements (beginner-friendly notes)
+      - Mobile navigation open/close
+      - Close menu after clicking a link (better UX on phones)
+      - Footer year (tiny convenience)
+      ============================================================
+    */
+
+    const nav = document.querySelector("#site-nav");
+    const toggle = document.querySelector(".menu-toggle");
+    const toggleLinks = document.querySelectorAll(".nav-links a");
+
+    function setNavOpen(isOpen) {
+      nav.dataset.open = isOpen ? "true" : "false";
+      toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    }
+
+    // Toggle menu button
+    toggle.addEventListener("click", () => {
+      const isOpen = nav.dataset.open === "true";
+      setNavOpen(!isOpen);
+    });
+
+    // Close menu when a navigation link is clicked (mobile)
+    toggleLinks.forEach((link) => {
+      link.addEventListener("click", () => setNavOpen(false));
+    });
+
+    // Optional: close menu if window grows beyond mobile layout breakpoint
+    window.addEventListener("resize", () => {
+      if (window.matchMedia("(min-width: 861px)").matches) setNavOpen(false);
+    });
+
+    // Close menu with Escape (keyboard-friendly)
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setNavOpen(false);
+    });
+
+    // Footer year
+    document.querySelector("#year").textContent = String(new Date().getFullYear());
+  </script>
+</body>
+</html>
